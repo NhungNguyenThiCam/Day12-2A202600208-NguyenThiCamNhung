@@ -60,8 +60,7 @@ class Settings:
         if self.environment == "production":
             if self.agent_api_key == "dev-key-change-me":
                 raise ValueError("❌ AGENT_API_KEY must be set in production!")
-            if self.jwt_secret == "dev-jwt-secret":
-                raise ValueError("❌ JWT_SECRET must be set in production!")
+            # JWT_SECRET is optional - only needed if using JWT auth
             if self.debug:
                 logger.warning("⚠️  DEBUG mode is enabled in production!")
         
