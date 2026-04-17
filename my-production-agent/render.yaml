@@ -1,0 +1,35 @@
+services:
+  # Main Agent Service
+  - type: web
+    name: production-ai-agent
+    env: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    plan: free
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: PORT
+        value: 8000
+      - key: LOG_LEVEL
+        value: INFO
+      - key: RATE_LIMIT_PER_MINUTE
+        value: 10
+      - key: MONTHLY_BUDGET_USD
+        value: 10.0
+      - key: AGENT_API_KEY
+        generateValue: true
+      - key: JWT_SECRET
+        generateValue: true
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: agent-redis
+          property: connectionString
+
+  # Redis Service
+  - type: redis
+    name: agent-redis
+    plan: free
+    maxmemoryPolicy: allkeys-lru
+    ipAllowList: []

@@ -21,14 +21,14 @@ services:
   # ──────────────────────────────────────
   agent:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../..           # Build từ project root
+      dockerfile: 02-docker/production/Dockerfile
       target: runtime          # chỉ build stage "runtime", không build "builder"
     environment:
       - ENVIRONMENT=staging
       - PORT=8000
       - REDIS_URL=redis://redis:6379/0
-      - QDRANT_URL=http://qdrant:6333
+      # - QDRANT_URL=http://qdrant:6333
       # ❌ KHÔNG đặt secrets trực tiếp ở đây trong production
       # ✅ Dùng: docker secret hoặc env file ngoài git
     env_file:
@@ -36,8 +36,8 @@ services:
     depends_on:
       redis:
         condition: service_healthy
-      qdrant:
-        condition: service_healthy
+      # qdrant:
+      #   condition: service_healthy
     healthcheck:
       test: ["CMD", "python", "-c",
              "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
@@ -69,17 +69,17 @@ services:
   # ──────────────────────────────────────
   # Qdrant — Vector database
   # ──────────────────────────────────────
-  qdrant:
-    image: qdrant/qdrant:v1.9.0
-    volumes:
-      - qdrant_data:/qdrant/storage
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:6333/health"]
-      interval: 15s
-      timeout: 5s
-      retries: 3
-    networks:
-      - internal
+  # qdrant:
+  #   image: qdrant/qdrant:v1.9.0
+  #   volumes:
+  #     - qdrant_data:/qdrant/storage
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:6333/health"]
+  #     interval: 15s
+  #     timeout: 5s
+  #     retries: 3
+  #   networks:
+  #     - internal
 
   # ──────────────────────────────────────
   # Nginx — Reverse proxy & Load balancer
@@ -87,8 +87,8 @@ services:
   nginx:
     image: nginx:alpine
     ports:
-      - "80:80"      # HTTP
-      - "443:443"    # HTTPS (cần cert)
+      - "8080:80"      # HTTP
+      - "8443:443"    # HTTPS (cần cert)
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
@@ -102,7 +102,7 @@ services:
 # ──────────────────────────────────────
 volumes:
   redis_data:
-  qdrant_data:
+  # qdrant_data:
 
 # ──────────────────────────────────────
 # Network — isolate internal traffic
