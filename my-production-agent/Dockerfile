@@ -36,6 +36,9 @@ WORKDIR /app
 # Copy installed packages from builder
 COPY --from=builder /root/.local /home/agent/.local
 
+# Make sure pip packages are in system path
+ENV PATH=/home/agent/.local/bin:$PATH
+
 # Copy application code
 COPY app/ ./app/
 COPY utils/ ./utils/
@@ -52,6 +55,11 @@ ENV PYTHONPATH=/app
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
+# Install uvicorn globally to ensure it's available
+USER root
+RUN pip install --no-cache-dir uvicorn[standard]==0.27.0
+USER agent
+
 # Expose port
 EXPOSE 8000
 
@@ -62,4 +70,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
     || exit 1
 
 # Start command
-CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]
