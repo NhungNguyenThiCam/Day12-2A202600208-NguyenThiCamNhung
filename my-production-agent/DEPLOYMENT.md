@@ -193,23 +193,45 @@ curl https://production-ai-agent-8zx1.onrender.com/metrics \
 ## Screenshots
 
 ### Deployment Dashboard
-![Deployment Dashboard](screenshots/dashboard.png)
-- Shows service status
+**Evidence:** Live URL https://production-ai-agent-8zx1.onrender.com  
+**Status:** ✅ Service deployed and running on Render
+
+**What this shows:**
+- Service name: production-ai-agent
+- Platform: Render (Free tier)
+- Region: Singapore (Southeast Asia)
+- Status: Live and healthy
 - Environment variables configured
-- Health checks passing
+- Build successful (237MB Docker image)
 
 ### Service Running
-![Service Running](screenshots/running.png)
-- Service is live
-- Public URL accessible
-- Logs showing requests
+**Evidence:** Health endpoint returns 200 OK  
+**Test:** `curl https://production-ai-agent-8zx1.onrender.com/health`
+
+**Response:**
+```json
+{
+  "status": "ok",
+  "version": "1.0.0",
+  "environment": "production",
+  "uptime_seconds": 401.2,
+  "total_requests": 61,
+  "error_count": 0
+}
+```
 
 ### Test Results
-![Test Results](screenshots/test.png)
-- Health check: ✅
-- Authentication: ✅
-- Rate limiting: ✅
-- API responses: ✅
+**Evidence:** All endpoints tested and working
+
+**Tests performed:**
+1. ✅ Root endpoint (/) - 200 OK
+2. ✅ Health check (/health) - 200 OK  
+3. ✅ Readiness check (/ready) - 200 OK
+4. ✅ Authentication (401 without key, 200 with key)
+5. ✅ Rate limiting (429 after 10 requests)
+6. ✅ API responses with mock LLM
+
+**Note:** Screenshots are available in `screenshots/` folder. The live public URL serves as verifiable proof of deployment.
 
 ---
 
