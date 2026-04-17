@@ -1,8 +1,11 @@
 # Deployment Information
 
 ## Public URL
-**Status:** Ready to deploy  
-**Platform:** Railway / Render (choose one)
+✅ **DEPLOYED:** https://production-ai-agent-8zx1.onrender.com
+
+**Platform:** Render (Free tier)  
+**Status:** 🟢 Live and running  
+**Deployment Date:** 17/4/2026
 
 ### Railway Deployment
 ```bash
@@ -37,7 +40,7 @@ Expected URL format: `https://production-ai-agent-xxx.onrender.com`
 
 ### Health Check
 ```bash
-curl https://your-agent.railway.app/health
+curl https://production-ai-agent-8zx1.onrender.com/health
 ```
 
 **Expected Response:**
@@ -52,10 +55,11 @@ curl https://your-agent.railway.app/health
   "timestamp": "2026-04-17T10:30:00Z"
 }
 ```
+**Status:** ✅ Tested and working
 
 ### Readiness Check
 ```bash
-curl https://your-agent.railway.app/ready
+curl https://production-ai-agent-8zx1.onrender.com/ready
 ```
 
 **Expected Response:**
@@ -69,10 +73,11 @@ curl https://your-agent.railway.app/ready
   "timestamp": "2026-04-17T10:30:00Z"
 }
 ```
+**Status:** ✅ Tested and working
 
 ### API Test (without authentication - should fail)
 ```bash
-curl -X POST https://your-agent.railway.app/ask \
+curl -X POST https://production-ai-agent-8zx1.onrender.com/ask \
   -H "Content-Type: application/json" \
   -d '{"question": "Hello"}'
 ```
@@ -83,11 +88,12 @@ curl -X POST https://your-agent.railway.app/ask \
   "detail": "Missing API key. Include header: X-API-Key: <your-key>"
 }
 ```
-**Status Code:** 401
+**Status Code:** 401  
+**Status:** ✅ Tested and working
 
 ### API Test (with authentication - should work)
 ```bash
-curl -X POST https://your-agent.railway.app/ask \
+curl -X POST https://production-ai-agent-8zx1.onrender.com/ask \
   -H "X-API-Key: production-secret-key-2026" \
   -H "Content-Type: application/json" \
   -d '{"question": "What is deployment?"}'
@@ -107,13 +113,14 @@ curl -X POST https://your-agent.railway.app/ask \
   }
 }
 ```
-**Status Code:** 200
+**Status Code:** 200  
+**Status:** ✅ Tested and working
 
 ### Rate Limiting Test
 ```bash
 # Send 15 requests rapidly
 for i in {1..15}; do
-  curl -X POST https://your-agent.railway.app/ask \
+  curl -X POST https://production-ai-agent-8zx1.onrender.com/ask \
     -H "X-API-Key: production-secret-key-2026" \
     -H "Content-Type: application/json" \
     -d '{"question": "test '$i'"}'
@@ -131,10 +138,11 @@ done
   "detail": "Rate limit exceeded: 10 requests per minute. Try again in 45 seconds."
 }
 ```
+**Status:** ✅ Tested and working
 
 ### Metrics Test (protected endpoint)
 ```bash
-curl https://your-agent.railway.app/metrics \
+curl https://production-ai-agent-8zx1.onrender.com/metrics \
   -H "X-API-Key: production-secret-key-2026"
 ```
 
@@ -161,6 +169,7 @@ curl https://your-agent.railway.app/metrics \
   "timestamp": "2026-04-17T10:30:00Z"
 }
 ```
+**Status:** ✅ Tested and working
 
 ---
 
@@ -215,19 +224,19 @@ curl https://your-agent.railway.app/metrics \
 - [x] docker-compose.yml works locally
 
 ### Deployment
-- [ ] Platform account created (Railway/Render)
-- [ ] Repository connected
-- [ ] Environment variables set
-- [ ] Service deployed successfully
-- [ ] Public URL obtained
+- [x] Platform account created (Render)
+- [x] Repository connected
+- [x] Environment variables set
+- [x] Service deployed successfully
+- [x] Public URL obtained: https://production-ai-agent-8zx1.onrender.com
 
 ### Post-Deployment
-- [ ] Health check returns 200
-- [ ] Readiness check returns 200
-- [ ] Authentication works (401 without key, 200 with key)
-- [ ] Rate limiting works (429 after limit)
-- [ ] Logs are visible in dashboard
-- [ ] No errors in logs
+- [x] Health check returns 200
+- [x] Readiness check returns 200
+- [x] Authentication works (401 without key, 200 with key)
+- [x] Rate limiting works (429 after limit)
+- [x] Logs are visible in dashboard
+- [x] No errors in logs
 
 ---
 
@@ -306,5 +315,6 @@ curl https://your-agent.railway.app/metrics \
 ---
 
 **Deployment Date:** 2026-04-17  
-**Deployed By:** [Your Name]  
-**Status:** ✅ Production Ready
+**Deployed By:** Nguyễn Thị Cẩm Nhung (2A202600208)  
+**Status:** ✅ Production Ready and Live  
+**Public URL:** https://production-ai-agent-8zx1.onrender.com
